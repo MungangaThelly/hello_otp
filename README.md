@@ -1,32 +1,39 @@
 # hello_otp
 
-`hello_otp` is a small Erlang/OTP application scaffold. Its application callback starts the top-level supervisor, `hello_otp_sup`, which currently has no child processes.
+`hello_otp` is an Erlang/OTP application with a persistent counter and a small HTTP page for trying it in a browser.
 
 ## Requirements
 
 - Erlang/OTP
 - [Rebar3](https://rebar3.org/)
 
-## Build
+## Run
 
-From the project root, compile the application:
+Compile the application from the project root:
 
 ```powershell
 rebar3 compile
 ```
 
-## Run in the Erlang shell
-
-Start the application in a Rebar3 shell:
+Then start it in a Rebar3 shell:
 
 ```powershell
 rebar3 shell
 ```
 
-Then start the application from the Erlang prompt:
+Open [http://localhost:8080](http://localhost:8080). The page displays the counter saved by the application. Select **Increment counter** to increase it; the value is stored in `data/hello_otp_counter.dets` and survives application restarts.
+
+The HTTP listener binds to `127.0.0.1` on port `8080` by default. To choose another port, change `http_port` in `config/sys.config`:
 
 ```erlang
-application:ensure_all_started(hello_otp).
+[{hello_otp, [{http_port, 8090}]}].
 ```
 
-The application starts `hello_otp_sup`. Add worker or supervisor child specifications to `hello_otp_sup:init/1` as the application grows.
+Then browse to `http://localhost:8090`.
+
+## Endpoints
+
+- `GET /` — display the current counter.
+- `GET /increment` — increment the counter and display the new value.
+
+The server uses Erlang's built-in TCP module and has no third-party dependencies.

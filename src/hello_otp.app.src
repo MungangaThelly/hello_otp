@@ -1,13 +1,14 @@
 {application, hello_otp, [
-    {description, "An OTP application"},
+    {description, "Persistent counter with a local browser demo"},
     {vsn, "0.1.0"},
-    {registered, []},
+    {registered, [hello_otp_sup, hello_otp_storage, hello_otp_server,
+                  hello_otp_monitor, hello_otp_http]},
     {mod, {hello_otp_app, []}},
     {applications, [
         kernel,
         stdlib
     ]},
-    {env, []},
+    {env, [{http_port, 8080}]},
     {modules, []},
     {licenses, ["Apache-2.0"]},
     {links, []}

@@ -50,6 +50,16 @@ init([]) ->
             shutdown => 5000,
             type => worker,
             modules => [hello_otp_monitor]
+        },
+
+        %% 4. Browser HTTP endpoint
+        #{
+            id => hello_otp_http,
+            start => {hello_otp_http, start_link, []},
+            restart => permanent,
+            shutdown => 5000,
+            type => worker,
+            modules => [hello_otp_http]
         }
     ],
 
